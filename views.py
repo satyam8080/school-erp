@@ -28,27 +28,45 @@ def register_student():
     mobile = request.form['mobile']
     father_name = request.form['father_name']
     address = request.form['address']
-    tc = request.files['tc']
-    migration = request.files['migration']
-    photo = request.files['photo']
+
+
+
     dob = request.form['dob']
 
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if tc.filename == '' or migration.filename == '' or photo.filename == '':
+    if not request.files['tc']:
         tc_filename = None
-        migration_filename = None
-        photo_filename = None
-
     else:
-        if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
-            tc_filename = secure_filename(tc.filename)
-            tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
-            photo_filename = secure_filename(photo.filename)
-            photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
-            migration_filename = secure_filename(migration.filename)
-            migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
+        tc = request.files['tc']
+        tc_filename = secure_filename(tc.filename)
+        tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
+
+    if not request.files['migration']:
+        migration_filename = None
+    else:
+        migration = request.files['migration']
+        migration_filename = secure_filename(migration.filename)
+        migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
+
+    if not request.files['photo']:
+        photo_filename = None
+    else:
+        photo = request.files['photo']
+        photo_filename = secure_filename(photo.filename)
+        photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
+
+    #if tc.filename == '' or migration.filename == '' or photo.filename == '':
+        # tc_filename = None
+        # migration_filename = None
+        # photo_filename = None
+
+    #else:
+    #if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
+
+
+
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
