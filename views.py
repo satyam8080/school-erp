@@ -21,33 +21,34 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
+    print(request.files)
     name = request.form['name']
     gender = request.form['gender']
     student_class = request.form['student_class']
     mobile = request.form['mobile']
     father_name = request.form['father_name']
     address = request.form['address']
-    # tc = request.files['tc']
-    # migration = request.files['migration']
-    # photo = request.files['photo']
+    tc = request.files['tc']
+    migration = request.files['migration']
+    photo = request.files['photo']
     dob = request.form['dob']
 
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    # if tc.filename == '' or migration.filename == '' or photo.filename == '':
-    #     tc_filename = None
-    #     migration_filename = None
-    #     photo_filename = None
+    if tc.filename == '' or migration.filename == '' or photo.filename == '':
+        tc_filename = None
+        migration_filename = None
+        photo_filename = None
 
-    # else:
-    #     if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
-    #         tc_filename = secure_filename(tc.filename)
-    #         tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
-    #         photo_filename = secure_filename(photo.filename)
-    #         photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
-    #         migration_filename = secure_filename(migration.filename)
-    #         migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
+    else:
+        if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
+            tc_filename = secure_filename(tc.filename)
+            tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
+            photo_filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
+            migration_filename = secure_filename(migration.filename)
+            migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
@@ -56,9 +57,9 @@ def register_student():
         }, 404
 
     else:
-        tc_filename = None
-        migration_filename = None
-        photo_filename = None
+        # tc_filename = None
+        # migration_filename = None
+        # photo_filename = None
         new_student = Student(name=name, gender=gender, student_class=student_class,
                               mobile=mobile, father_name=father_name, address=address,
                               tc=tc_filename, migration=migration_filename, dob=today, photo=photo_filename)
