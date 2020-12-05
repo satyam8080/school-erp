@@ -6,9 +6,9 @@ from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config.from_object(Config)
+CORS(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
-CORS(app)
 
 import views
 from models.student import Student

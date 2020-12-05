@@ -68,3 +68,9 @@ def register_student():
                 "student_id": new_student.id
             }
         }, 200
+
+
+@app.route('/test')
+def test():
+    print(request.form)
+    return request.form
