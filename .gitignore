@@ -1,7 +1,5 @@
 .idea
 venv
-uploads/migration/*
-uploads/tc/*
 
 *.py[cod]
 
