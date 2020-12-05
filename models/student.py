@@ -20,6 +20,7 @@ class Student(db.Model):
     father_name = db.Column(db.String(256), nullable=True)
     address = db.Column(db.String(512), nullable=False)
     tc = db.Column(db.String(512), nullable=True)
+    photo = db.Column(db.String(512), nullable=True)
     migration = db.Column(db.String(512), nullable=True)
     dob = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

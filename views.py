@@ -29,19 +29,23 @@ def register_student():
     address = request.form.get('address', None)
     tc = request.files['tc']
     migration = request.files['migration']
+    photo = request.files['photo']
     dob = request.form.get('dob', None)
 
-    year, month, day = dob.split('/')
+    year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if tc.filename == '' or migration.filename == '':
+    if tc.filename == '' or migration.filename == '' or photo.filename == '':
         tc_filename = None
         migration_filename = None
+        photo_filename = None
 
     else:
-        if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename):
+        if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
             tc_filename = secure_filename(tc.filename)
             tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
+            photo_filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
             migration_filename = secure_filename(migration.filename)
             migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
 
@@ -54,7 +58,7 @@ def register_student():
     else:
         new_student = Student(name=name, gender=gender, student_class=student_class,
                               mobile=mobile, father_name=father_name, address=address,
-                              tc=tc_filename, migration=migration_filename, dob=today)
+                              tc=tc_filename, migration=migration_filename, dob=today, photo=photo_filename)
         db.session.add(new_student)
         db.session.commit()
 
