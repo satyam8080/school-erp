@@ -64,4 +64,3 @@ def register_student():
                 "student_id": new_student.id
             }
         }, 200
-    
