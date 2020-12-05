@@ -21,16 +21,16 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
-    name = request.form.get('name', None)
-    gender = request.form.get('gender', None)
-    student_class = request.form.get('student_class', None)
-    mobile = request.form.get('mobile', None)
-    father_name = request.form.get('father_name', None)
-    address = request.form.get('address', None)
+    name = request.form['name']
+    gender = request.form['gender']
+    student_class = request.form['student_class']
+    mobile = request.form['mobile']
+    father_name = request.form['father_name']
+    address = request.form['address']
     tc = request.files['tc']
     migration = request.files['migration']
     photo = request.files['photo']
-    dob = request.form.get('dob', None)
+    dob = request.form['dob']
 
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
