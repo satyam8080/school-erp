@@ -70,7 +70,7 @@ def register_student():
         }, 200
 
 
-@app.route('/test')
+@app.route('/test', methods=['POST','GET'])
 def test():
     print(request.form)
     return request.form
