@@ -1,7 +1,7 @@
 .idea
 venv
-app.db
-uploads
+uploads/migration/*
+uploads/tc/*
 
 *.py[cod]
 
