@@ -36,21 +36,21 @@ def register_student():
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if 'tc' not in request.files:
+    if not request.files['tc']:
         tc_filename = None
     else:
         tc = request.files['tc']
         tc_filename = secure_filename(tc.filename)
         tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
 
-    if 'migration' not in request.files:
+    if not request.files['migration']:
         migration_filename = None
     else:
         migration = request.files['migration']
         migration_filename = secure_filename(migration.filename)
         migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
 
-    if 'photo' not in request.files:
+    if not request.files['photo']:
         photo_filename = None
     else:
         photo = request.files['photo']
