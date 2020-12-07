@@ -5,7 +5,6 @@ from werkzeug.utils import secure_filename
 import os
 from datetime import date
 
-
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 
@@ -28,7 +27,7 @@ def register_student():
     mobile = request.form.get('mobile', None)
     father_name = request.form.get('father_name', None)
     address = request.form['address']
-    tc = request.files.get('tc',None)
+    tc = request.files.get('tc', None)
     migration = request.files.get('migration', None)
     photo = request.files.get('photo', None)
     dob = request.form['dob']
@@ -56,9 +55,9 @@ def register_student():
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
-            "status": 404,
-            "message": "Missing property"
-        }, 404
+                   "status": 404,
+                   "message": "Missing property"
+               }, 404
 
     else:
         new_student = Student(name=name, gender=gender, student_class=student_class,
@@ -68,14 +67,14 @@ def register_student():
         db.session.commit()
 
         return {
-            "status": 200,
-            "message": {
-                "student_id": new_student.id
-            }
-        }, 200
+                   "status": 200,
+                   "message": {
+                       "student_id": new_student.id
+                   }
+               }, 200
 
 
-@app.route('/test', methods=['POST','GET'])
+@app.route('/test', methods=['POST', 'GET'])
 def test():
     print(request.form)
     return request.form
