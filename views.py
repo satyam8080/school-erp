@@ -22,51 +22,37 @@ def index():
 @app.route('/registration', methods=['POST'])
 def register_student():
     print(request.files)
-    name = request.form['name']
-    gender = request.form['gender']
-    student_class = request.form['student_class']
-    mobile = request.form['mobile']
-    father_name = request.form['father_name']
+    name = request.form.get('name', None)
+    gender = request.form.get('gender', None)
+    student_class = request.form.get('student_class', None)
+    mobile = request.form.get('mobile', None)
+    father_name = request.form.get('father_name', None)
     address = request.form['address']
-
-
-
+    tc = request.files.get('tc',None)
+    migration = request.files.get('migration', None)
+    photo = request.files.get('photo', None)
     dob = request.form['dob']
 
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if not request.files['tc']:
+    if tc is None:
         tc_filename = None
     else:
-        tc = request.files['tc']
         tc_filename = secure_filename(tc.filename)
         tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
 
-    if not request.files['migration']:
+    if migration is None:
         migration_filename = None
     else:
-        migration = request.files['migration']
         migration_filename = secure_filename(migration.filename)
         migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
 
-    if not request.files['photo']:
+    if photo is None:
         photo_filename = None
     else:
-        photo = request.files['photo']
         photo_filename = secure_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
-
-    #if tc.filename == '' or migration.filename == '' or photo.filename == '':
-        # tc_filename = None
-        # migration_filename = None
-        # photo_filename = None
-
-    #else:
-    #if tc and allowed_file(tc.filename) or migration and allowed_file(migration.filename) or photo and allowed_file(photo.filename):
-
-
-
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
@@ -75,9 +61,6 @@ def register_student():
         }, 404
 
     else:
-        # tc_filename = None
-        # migration_filename = None
-        # photo_filename = None
         new_student = Student(name=name, gender=gender, student_class=student_class,
                               mobile=mobile, father_name=father_name, address=address,
                               tc=tc_filename, migration=migration_filename, dob=today, photo=photo_filename)
