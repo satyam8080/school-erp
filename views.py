@@ -26,7 +26,7 @@ def register_student():
     student_class = request.form.get('student_class', None)
     mobile = request.form.get('mobile', None)
     father_name = request.form.get('father_name', None)
-    address = request.form['address']
+    address = request.form.get('address', None)
     tc = request.files.get('tc', None)
     migration = request.files.get('migration', None)
     photo = request.files.get('photo', None)
