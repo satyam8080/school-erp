@@ -35,23 +35,23 @@ def register_student():
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if tc is None:
-        tc_filename = None
-    else:
+    if tc:
         tc_filename = secure_filename(tc.filename)
         tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
-
-    if migration is None:
-        migration_filename = None
     else:
+        tc_filename = None
+
+    if migration:
         migration_filename = secure_filename(migration.filename)
         migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
-
-    if photo is None:
-        photo_filename = None
     else:
+        migration_filename = None
+
+    if photo:
         photo_filename = secure_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
+    else:
+        photo_filename = None
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
