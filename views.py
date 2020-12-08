@@ -21,7 +21,7 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
-    print(request.files)
+    # print(request.files)
     name = request.form.get('name', None)
     gender = request.form.get('gender', None)
     student_class = request.form.get('student_class', None)
@@ -73,6 +73,11 @@ def register_student():
                 "student_id": new_student.id
             }
         }, 200
+
+
+@app.route('/attendence', methods=['POST'])
+def attendence_store():
+    pass
 
 
 @app.route('/test', methods=['POST','GET'])
