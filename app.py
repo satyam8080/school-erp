@@ -11,6 +11,7 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
 
 import views
+import attendance
 from models.student import Student
 from models.attendance import Attendance
 
