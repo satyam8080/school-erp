@@ -12,9 +12,11 @@ migrate = Migrate(app, db, compare_type=True)
 
 import views
 import attendance
+import solution
 from models.student import Student
 from models.attendance import Attendance
+from models.solution import Solution
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
