@@ -78,3 +78,13 @@ def register_student():
 def test():
     print(request.form)
     return request.form
+
+
+@app.route('/students', methods=['GET'])
+def get_student_details():
+    students = Student.query.all()
+    res = []
+    for student in students:
+        obj = {'id': student.id, 'name': student.name}
+        res.append(obj)
+    return {'students': res}, 200
