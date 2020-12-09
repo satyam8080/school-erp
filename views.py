@@ -78,3 +78,5 @@ def register_student():
 def test():
     print(request.form)
     return request.form
+
+
