@@ -16,6 +16,7 @@ import solution
 from models.student import Student
 from models.attendance import Attendance
 from models.solution import Solution
+from models.assignment import Assignment
 
 
 if __name__ == '__main__':
