@@ -20,13 +20,13 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
-    print(request.files)
+    # print(request.files)
     name = request.form.get('name', None)
     gender = request.form.get('gender', None)
     student_class = request.form.get('student_class', None)
     mobile = request.form.get('mobile', None)
     father_name = request.form.get('father_name', None)
-    address = request.form['address']
+    address = request.form.get('address', None)
     tc = request.files.get('tc', None)
     migration = request.files.get('migration', None)
     photo = request.files.get('photo', None)
@@ -35,23 +35,23 @@ def register_student():
     year, month, day = dob.split('-')
     today = date(int(year), int(month), int(day))
 
-    if tc is None:
-        tc_filename = None
-    else:
+    if tc:
         tc_filename = secure_filename(tc.filename)
         tc.save(os.path.join(app.config['UPLOAD_FOLDER_TC'], tc_filename))
-
-    if migration is None:
-        migration_filename = None
     else:
+        tc_filename = None
+
+    if migration:
         migration_filename = secure_filename(migration.filename)
         migration.save(os.path.join(app.config['UPLOAD_FOLDER_MIGRATION'], migration_filename))
-
-    if photo is None:
-        photo_filename = None
     else:
+        migration_filename = None
+
+    if photo:
         photo_filename = secure_filename(photo.filename)
         photo.save(os.path.join(app.config['UPLOAD_FOLDER_PHOTO'], photo_filename))
+    else:
+        photo_filename = None
 
     if not (name or gender or student_class or mobile or address or dob):
         return {
@@ -80,3 +80,14 @@ def test():
     return request.form
 
 
+<<<<<<< HEAD
+=======
+@app.route('/students', methods=['GET'])
+def get_student_details():
+    students = Student.query.all()
+    res = []
+    for student in students:
+        obj = {'id': student.id, 'name': student.name}
+        res.append(obj)
+    return {'students': res}, 200
+>>>>>>> 5c47a30df318b9a17c963ba3fe026e27e5f789ca
