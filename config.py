@@ -13,5 +13,6 @@ class Config(object):
     UPLOAD_FOLDER_MIGRATION = 'uploads/migration'
     UPLOAD_FOLDER_PHOTO = 'uploads/photo'
     UPLOAD_FOLDER_SOLUTION = 'uploads/solution'
+    UPLOAD_FOLDER_ASSIGNMENT = 'uploads/assignment'
 
 
