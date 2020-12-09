@@ -80,8 +80,6 @@ def test():
     return request.form
 
 
-<<<<<<< HEAD
-=======
 @app.route('/students', methods=['GET'])
 def get_student_details():
     students = Student.query.all()
@@ -90,4 +88,3 @@ def get_student_details():
         obj = {'id': student.id, 'name': student.name}
         res.append(obj)
     return {'students': res}, 200
->>>>>>> 5c47a30df318b9a17c963ba3fe026e27e5f789ca
