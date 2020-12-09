@@ -2,7 +2,7 @@ from app import db
 from datetime import datetime, timedelta
 
 
-def get_due_date(self):
+def get_due_date():
     return datetime.utcnow() + timedelta(days=2)
 
 
