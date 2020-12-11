@@ -13,6 +13,7 @@ migrate = Migrate(app, db, compare_type=True)
 import views
 import attendance
 import solution
+import assignment
 from models.student import Student
 from models.attendance import Attendance
 from models.solution import Solution
