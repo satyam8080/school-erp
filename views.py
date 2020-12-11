@@ -84,7 +84,7 @@ def test():
 def get_student_details():
     students = Student.query.all()
     res = []
-    if students:
+    if len(students) != 0:
         for student in students:
             obj = {'id': student.id, 'name': student.name}
             res.append(obj)
