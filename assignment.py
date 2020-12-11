@@ -1,9 +1,12 @@
-from datetime import date
-from flask import request, jsonify, url_for
-from app import app, db
-from werkzeug.utils import secure_filename
 import os
+from datetime import date
+
+from flask import request, send_from_directory
+from werkzeug.utils import secure_filename
+
+from app import app, db
 from models.assignment import Assignment
+
 
 @app.route('/assignment', methods=['POST'])
 def assign():
@@ -33,11 +36,15 @@ def get_assignment():
     res = []
     for assignment in assignments:
         if assignment.file:
-            file_path = os.path.join(app.config['UPLOAD_FOLDER_ASSIGNMENT']) + '/' + assignment.file
+            file_path = 'static/'+os.path.join(app.config['UPLOAD_FOLDER_ASSIGNMENT']) + '/' + assignment.file
         else:
             file_path = None
-
         obj = {'id': assignment.id, 'question': assignment.text, 'due_date': assignment.due_date,
-               'file': file_path}
+               'file_path': file_path}
         res.append(obj)
     return {"message": res}, 200
+
+
+@app.route('/static/<path:path>/<string:file>', methods=['GET', 'POST'])
+def abc(path, file):
+    return send_from_directory(path, file)

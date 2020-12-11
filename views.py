@@ -84,7 +84,11 @@ def test():
 def get_student_details():
     students = Student.query.all()
     res = []
-    for student in students:
-        obj = {'id': student.id, 'name': student.name}
-        res.append(obj)
-    return {'students': res}, 200
+    if students:
+        for student in students:
+            obj = {'id': student.id, 'name': student.name}
+            res.append(obj)
+        return {'students': res}, 200
+
+    else:
+        return {"message": "No student"}, 404

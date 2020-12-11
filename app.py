@@ -4,7 +4,7 @@ from config import Config
 from flask_cors import CORS
 from flask_migrate import Migrate
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config.from_object(Config)
 CORS(app)
 db = SQLAlchemy(app)
