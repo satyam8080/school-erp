@@ -35,14 +35,18 @@ def add():
 
 @app.route('/classes', methods=['GET'])
 def get():
+    import collections
     classes = Classes.query.all()
+    print(classes)
 
     if classes:
-        res = []
+        class_dic = collections.defaultdict(list)
         for cla in classes:
-            obj = {'class':cla.name, 'section': cla.section}
-            res.append(obj)
-            return {"classes": res}, 200
+            class_dic[cla.name].append(cla.section)
+        res = []
+        for k, v in class_dic.items():
+            res.append({'class': k, 'sections': v})
+        return {"classes": res}, 200
 
     else:
         return {"message": "No classes available"}, 404
