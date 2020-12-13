@@ -20,7 +20,6 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
-    # print(request.files)
     name = request.form.get('name', None)
     gender = request.form.get('gender', None)
     student_class = request.form.get('student_class', None)

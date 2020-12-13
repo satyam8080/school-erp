@@ -39,8 +39,10 @@ def get():
 
     if classes:
         res = []
-        for cls, sec in classes:
-            return {"class": cls, "section": sec}, 200
+        for cla in classes:
+            obj = {'class':cla.name, 'section': cla.section}
+            res.append(obj)
+            return {"classes": res}, 200
 
     else:
         return {"message": "No classes available"}, 404
