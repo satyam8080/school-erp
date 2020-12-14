@@ -20,7 +20,6 @@ def index():
 
 @app.route('/registration', methods=['POST'])
 def register_student():
-    # print(request.files)
     name = request.form.get('name', None)
     gender = request.form.get('gender', None)
     student_class = request.form.get('student_class', None)
@@ -84,7 +83,11 @@ def test():
 def get_student_details():
     students = Student.query.all()
     res = []
-    for student in students:
-        obj = {'id': student.id, 'name': student.name}
-        res.append(obj)
-    return {'students': res}, 200
+    if len(students) != 0:
+        for student in students:
+            obj = {'id': student.id, 'name': student.name}
+            res.append(obj)
+        return {'students': res}, 200
+
+    else:
+        return {"message": "No student"}, 404
