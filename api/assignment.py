@@ -36,7 +36,7 @@ def get_assignment():
     res = []
     for assignment in assignments:
         if assignment.file:
-            file_path = 'static/'+os.path.join(app.config['UPLOAD_FOLDER_ASSIGNMENT']) + '/' + assignment.file
+            file_path = 'static/' + os.path.join(app.config['UPLOAD_FOLDER_ASSIGNMENT']) + '/' + assignment.file
         else:
             file_path = None
         obj = {'id': assignment.id, 'question': assignment.text, 'due_date': assignment.due_date,
@@ -46,5 +46,5 @@ def get_assignment():
 
 
 @app.route('/static/<path:path>/<string:file>', methods=['GET', 'POST'])
-def abc(path, file):
+def serve_static_resources(path, file):
     return send_from_directory(path, file)

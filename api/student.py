@@ -91,3 +91,21 @@ def get_student_details():
 
     else:
         return {"message": "No student"}, 404
+
+
+@app.route('/students/<int:std_id>', methods=['PATCH'])
+def update_student_section(std_id):
+    student = Student.query.filter_by(id=std_id).first()
+    if not student:
+        return {"message": "Student does not exist"}, 404
+
+    new_section = request.form.get('section', None)
+    if not new_section:
+        return {"message" : "Missing section property"}, 404
+
+    student.section = new_section
+    db.session.add(student)
+    db.session.commit()
+
+    return {"message": "Student's section updated successfully"}, 200
+

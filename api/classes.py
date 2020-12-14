@@ -14,18 +14,8 @@ def add():
     if not section:
         return {"message": "You must provide class section"}, 404
 
-    classes = Classes.query.all()
-
-    if classes:
-        for cls in classes:
-            if name == cls.name and section == cls.section:
-                return {"message": "Class with given section already taken"}, 404
-            else:
-                class_obj = Classes(name=name, section=section)
-                db.session.add(class_obj)
-                db.session.commit()
-                return {"message": "Data inserted successfully"}, 200
-
+    if Classes.query.filter_by(name=name, section=section).first():
+        return {"message": "Class with given section already taken"}, 404
     else:
         class_obj = Classes(name=name, section=section)
         db.session.add(class_obj)

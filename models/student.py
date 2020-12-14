@@ -16,6 +16,7 @@ class Student(db.Model):
     name = db.Column(db.String(256), nullable=False)
     gender = db.Column(db.Enum(GenderType), nullable=False)
     student_class = db.Column(db.String(32), nullable=False)
+    section = db.Column(db.String(6), nullable=True)
     mobile = db.Column(db.String(32), nullable=False)
     father_name = db.Column(db.String(256), nullable=True)
     address = db.Column(db.String(512), nullable=False)
