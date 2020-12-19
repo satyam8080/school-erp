@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 249003711819
+Revision ID: e1b1c34d1d2b
 Revises: 
-Create Date: 2020-12-09 14:40:12.041193
+Create Date: 2020-12-19 17:46:18.157258
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '249003711819'
+revision = 'e1b1c34d1d2b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -26,17 +26,40 @@ def upgrade():
     sa.Column('due_date', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_table('enquiry',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('student_name', sa.String(length=512), nullable=False),
+    sa.Column('address', sa.String(length=512), nullable=False),
+    sa.Column('mobile', sa.String(length=32), nullable=False),
+    sa.Column('father_name', sa.String(length=512), nullable=False),
+    sa.Column('interested_class', sa.String(length=512), nullable=True),
+    sa.Column('date', sa.DateTime(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
     op.create_table('students',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=256), nullable=False),
     sa.Column('gender', sa.Enum('MALE', 'FEMALE', 'OTHER', name='gendertype'), nullable=False),
     sa.Column('student_class', sa.String(length=32), nullable=False),
+    sa.Column('section', sa.String(length=6), nullable=True),
     sa.Column('mobile', sa.String(length=32), nullable=False),
     sa.Column('father_name', sa.String(length=256), nullable=True),
     sa.Column('address', sa.String(length=512), nullable=False),
     sa.Column('tc', sa.String(length=512), nullable=True),
     sa.Column('photo', sa.String(length=512), nullable=True),
     sa.Column('migration', sa.String(length=512), nullable=True),
+    sa.Column('dob', sa.Date(), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('teachers',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=256), nullable=False),
+    sa.Column('gender', sa.Enum('MALE', 'FEMALE', 'OTHER', name='gendertype'), nullable=False),
+    sa.Column('mobile', sa.String(length=32), nullable=False),
+    sa.Column('father_name', sa.String(length=256), nullable=True),
+    sa.Column('address', sa.String(length=512), nullable=False),
+    sa.Column('photo', sa.String(length=512), nullable=True),
     sa.Column('dob', sa.Date(), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
@@ -50,6 +73,16 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_attendance_student_id'), 'attendance', ['student_id'], unique=False)
+    op.create_table('classes',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=6), nullable=True),
+    sa.Column('section', sa.String(length=3), nullable=True),
+    sa.Column('teacher_id', sa.Integer(), nullable=True),
+    sa.Column('date', sa.DateTime(), nullable=False),
+    sa.ForeignKeyConstraint(['teacher_id'], ['teachers.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_classes_teacher_id'), 'classes', ['teacher_id'], unique=False)
     op.create_table('solution',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('solution_file', sa.String(length=512), nullable=True),
@@ -70,8 +103,12 @@ def downgrade():
     op.drop_index(op.f('ix_solution_student_id'), table_name='solution')
     op.drop_index(op.f('ix_solution_assignment_id'), table_name='solution')
     op.drop_table('solution')
+    op.drop_index(op.f('ix_classes_teacher_id'), table_name='classes')
+    op.drop_table('classes')
     op.drop_index(op.f('ix_attendance_student_id'), table_name='attendance')
     op.drop_table('attendance')
+    op.drop_table('teachers')
     op.drop_table('students')
+    op.drop_table('enquiry')
     op.drop_table('assignments')
     # ### end Alembic commands ###
