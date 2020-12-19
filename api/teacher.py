@@ -85,23 +85,20 @@ def assign_class():
     if not all((teacher_id, class_id)):
         return {"message": "All fields are required"}, 404
     else:
-        class_obj = Classes.query.filter_by(id=class_id)
+        class_obj = Classes.query.filter_by(id=class_id).first()
         flag = 0
 
         if class_obj:
-            for cls in class_obj:
-                if cls.teacher_id:
-                    flag += flag + 1
-                else:
-                    pass
+            if class_obj.teacher_id:
+                flag = flag + 1
+            else:
+                pass
 
             if flag == 0:
                 class_obj.teacher_id = teacher_id
-                db.session.add(class_obj)
                 db.session.commit()
                 return {"message": "Teacher assigned"}, 200
             else:
                 return {"message": "Another teacher already present in this class"}, 404
-
         else:
             return {"message": "Invalid class"}, 404
