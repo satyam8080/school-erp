@@ -2,6 +2,7 @@ from app import app
 from flask import request
 from models.enquiry import Enquiry
 
+
 @app.route('/enquiry', methods=['POST'])
 def enquiry():
     student_name = request.form.get('student_name', None)
