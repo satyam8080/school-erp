@@ -40,3 +40,17 @@ def get():
 
     else:
         return {"message": "No classes available"}, 404
+
+
+@app.route('/classes-details', methods=['GET'])
+def details():
+    classes = Classes.query.all()
+    res = []
+
+    if classes:
+        for cls in classes:
+            obj = {"class_id": cls.id, "class_name": cls.name, "class_section": cls.section, "teacher_id": cls.teacher_id}
+            res.append(obj)
+        return {"message": res}, 200
+    else:
+        return {"message": "No classes created yet"}, 404

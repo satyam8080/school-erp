@@ -24,4 +24,5 @@ class Student(db.Model):
     photo = db.Column(db.String(512), nullable=True)
     migration = db.Column(db.String(512), nullable=True)
     dob = db.Column(db.Date, nullable=False)
+    session = db.Column(db.String(32), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)

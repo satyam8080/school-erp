@@ -10,12 +10,13 @@ CORS(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db, compare_type=True)
 
-from api import assignment, attendance, classes, solution, student, enquiry, teacher
+from api import assignment, attendance, classes, solution, student, enquiry, teacher, tc
 from models.student import Student
 from models.attendance import Attendance
 from models.solution import Solution
 from models.assignment import Assignment
 from models.enquiry import Enquiry
+from models.tc import Tc
 
 if __name__ == '__main__':
     app.run(debug=True)

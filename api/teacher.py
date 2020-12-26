@@ -102,3 +102,20 @@ def assign_class():
                 return {"message": "Another teacher already present in this class"}, 404
         else:
             return {"message": "Invalid class"}, 404
+
+
+@app.route('/remove-class-teacher', methods=['POST'])
+def remove_class_teacher():
+    class_id = request.form.get('class_id', None)
+
+    if class_id:
+        class_obj = Classes.query.filter_by(id=class_id).first()
+
+        if class_obj:
+            class_obj.teacher_id = None
+            db.session.commit()
+            return {"message": "Teacher Removed"}, 200
+        else:
+            return {"message": "Invalid class id"}, 404
+    else:
+        return {"message": "Class id field is required"}, 404
