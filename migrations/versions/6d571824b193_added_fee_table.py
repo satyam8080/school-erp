@@ -1,8 +1,8 @@
-"""empty message
+"""added fee table
 
-Revision ID: e1b1c34d1d2b
+Revision ID: 6d571824b193
 Revises: 
-Create Date: 2020-12-19 17:46:18.157258
+Create Date: 2020-12-20 15:31:26.940273
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e1b1c34d1d2b'
+revision = '6d571824b193'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -34,6 +34,14 @@ def upgrade():
     sa.Column('father_name', sa.String(length=512), nullable=False),
     sa.Column('interested_class', sa.String(length=512), nullable=True),
     sa.Column('date', sa.DateTime(), nullable=False),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_table('fee_structure',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('class_name', sa.String(length=6), nullable=True),
+    sa.Column('amount', sa.Integer(), nullable=False),
+    sa.Column('session', sa.String(length=10), nullable=False),
+    sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('students',
@@ -83,6 +91,19 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_classes_teacher_id'), 'classes', ['teacher_id'], unique=False)
+    op.create_table('fee_transactions',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('student_id', sa.Integer(), nullable=False),
+    sa.Column('amount', sa.Integer(), nullable=True),
+    sa.Column('session', sa.String(length=10), nullable=False),
+    sa.Column('transaction_date', sa.DateTime(), nullable=False),
+    sa.Column('transaction_id', sa.String(length=255), nullable=False),
+    sa.Column('mode', sa.String(length=64), nullable=False),
+    sa.Column('months', sa.String(length=64), nullable=False),
+    sa.ForeignKeyConstraint(['student_id'], ['students.id'], ),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_fee_transactions_student_id'), 'fee_transactions', ['student_id'], unique=False)
     op.create_table('solution',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('solution_file', sa.String(length=512), nullable=True),
@@ -103,12 +124,15 @@ def downgrade():
     op.drop_index(op.f('ix_solution_student_id'), table_name='solution')
     op.drop_index(op.f('ix_solution_assignment_id'), table_name='solution')
     op.drop_table('solution')
+    op.drop_index(op.f('ix_fee_transactions_student_id'), table_name='fee_transactions')
+    op.drop_table('fee_transactions')
     op.drop_index(op.f('ix_classes_teacher_id'), table_name='classes')
     op.drop_table('classes')
     op.drop_index(op.f('ix_attendance_student_id'), table_name='attendance')
     op.drop_table('attendance')
     op.drop_table('teachers')
     op.drop_table('students')
+    op.drop_table('fee_structure')
     op.drop_table('enquiry')
     op.drop_table('assignments')
     # ### end Alembic commands ###
